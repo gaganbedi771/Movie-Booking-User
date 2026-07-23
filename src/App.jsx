@@ -5,6 +5,7 @@ import Home from "./components/Home";
 
 import { Route, Routes } from "react-router-dom";
 import { AuthContext } from "./store/AuthContext";
+import Footer from "./components/Footer";
 
 const App = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -22,6 +23,7 @@ const App = () => {
           element={isAuthenticated ? <Home></Home> : <AuthPage></AuthPage>}
         ></Route>
       </Routes>
+      <Footer></Footer>
     </>
   );
 };
