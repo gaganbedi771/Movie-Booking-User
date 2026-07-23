@@ -55,6 +55,8 @@ export const bookTicket = async (bookingData, token) => {
             throw new Error("Error booking ticket");
         }
 
+        
+
         return await response.json();
     } catch (error) {
         console.error("Error booking ticket:", error);
