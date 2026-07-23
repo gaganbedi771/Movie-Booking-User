@@ -5,6 +5,8 @@ import { signinAPI } from "../services/authApi";
 export const AuthContext = createContext({
   isAuthenticated: false,
   userEmail: "",
+  token: null,
+  logoutHandler: () => {},
   signup: (email, password) => {},
   signin: (email, password) => {},
 });
@@ -16,6 +18,7 @@ const AuthContextProvider = (props) => {
   const [token, setToken] = useState(initialToken);
   const [userEmail, setUserEmail] = useState(initialEmail);
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
+
 
   async function signup(email, password) {
     try {
@@ -54,7 +57,6 @@ const AuthContextProvider = (props) => {
     localStorage.removeItem("email");
     setToken(null);
     setUserEmail(null);
-    setIsAdmin(false);
     setIsAuthenticated(false);
   };
 
@@ -64,6 +66,7 @@ const AuthContextProvider = (props) => {
     logoutHandler,
     signup,
     signin,
+    token,
   };
 
   return (

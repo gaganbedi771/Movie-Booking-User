@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Header from "./components/Header";
 import AuthPage from "./components/AuthPage";
 import Home from "./components/Home";
+import BookingPage from "./components/BookingPage";
 
 import { Route, Routes } from "react-router-dom";
 import { AuthContext } from "./store/AuthContext";
@@ -22,6 +23,7 @@ const App = () => {
           path="/home"
           element={isAuthenticated ? <Home></Home> : <AuthPage></AuthPage>}
         ></Route>
+        <Route path="/booking/:movieId" element={<BookingPage />} />
       </Routes>
       <Footer></Footer>
     </>
