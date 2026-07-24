@@ -1,4 +1,6 @@
 import {dbUrl} from "../config/config";
+import emailjs from "@emailjs/browser";
+import { serviceId,templateId,publicKey } from "../config/config";
 
 
 export const getAllData = async (token) => {
@@ -63,3 +65,27 @@ export const bookTicket = async (bookingData, token) => {
         throw error;
     }
 };
+
+
+    export const sendConfirmationEmail = async (userEmail, emailData,booking_id) => {
+    const emailString = `Booking Confirmation for ${emailData.movieName}\n\nDate: ${emailData.date}\nTime: ${emailData.time}\nNumber of Tickets: ${emailData.tickets}`;
+
+        try {
+            const response= await emailjs.send(
+                serviceId,
+                templateId,
+                {
+                    email: userEmail,
+                    message: emailString,
+                    booking_id: booking_id
+                },
+                publicKey
+            );
+
+            return response;
+            
+        } catch (error) {
+            console.error("Error sending confirmation email:", error);
+            throw error;
+        }
+    }
