@@ -7,16 +7,11 @@ const BookingPage = () => {
 
   const { movies, showTimes, bookTicket } = useContext(AppContext);
 
-
   const movie = movies.find((m) => m.id === movieId);
 
-  const movieShows = showTimes.filter(
-    (show) => show.movieId === movieId
-  );
+  const movieShows = showTimes.filter((show) => show.movieId === movieId);
 
-  const availableDates = [
-    ...new Set(movieShows.map((show) => show.date)),
-  ];
+  const availableDates = [...new Set(movieShows.map((show) => show.date))];
 
   const [selectedDate, setSelectedDate] = useState("");
 
@@ -25,26 +20,19 @@ const BookingPage = () => {
   const [tickets, setTickets] = useState(1);
 
   const availableTimes = useMemo(() => {
-    return movieShows.filter(
-      (show) => show.date === selectedDate
-    );
+    return movieShows.filter((show) => show.date === selectedDate);
   }, [movieShows, selectedDate]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    if (
-      !selectedDate ||
-      !selectedTime 
-    ) {
+    if (!selectedDate || !selectedTime) {
       alert("Please fill all details.");
       return;
     }
 
     const selectedShow = movieShows.find(
-      (show) =>
-        show.date === selectedDate &&
-        show.time === selectedTime
+      (show) => show.date === selectedDate && show.time === selectedTime,
     );
 
     const booking = {
@@ -53,10 +41,15 @@ const BookingPage = () => {
       numberOfTickets: tickets,
     };
 
-    console.log(booking);
 
-    await bookTicket(booking);
-    
+    const emailData={
+      movieName:movie.name,
+      date:selectedDate,
+      time:selectedTime,
+      tickets:tickets
+    }
+    await bookTicket(booking,emailData);
+
     alert("Booking Successful");
     selectedDate("");
     selectedTime("");
@@ -73,26 +66,19 @@ const BookingPage = () => {
 
   return (
     <div className="container py-5">
-
       <div className="row">
-
         <div className="col-md-5">
-
           <img
             src={movie.heroImage}
             alt={movie.name}
             className="img-fluid rounded shadow"
           />
-
         </div>
 
         <div className="col-md-7">
-
           <h1>{movie.name}</h1>
 
-          <p className="text-muted">
-            ⭐ {movie.imdbRating}
-          </p>
+          <p className="text-muted">⭐ {movie.imdbRating}</p>
 
           <p>
             <strong>Genre:</strong> {movie.genre}
@@ -107,8 +93,7 @@ const BookingPage = () => {
           </p>
 
           <p>
-            <strong>Release Date:</strong>{" "}
-            {movie.releaseDate}
+            <strong>Release Date:</strong> {movie.releaseDate}
           </p>
 
           <p>{movie.description}</p>
@@ -125,12 +110,8 @@ const BookingPage = () => {
           <hr />
 
           <form onSubmit={submitHandler}>
-
             <div className="mb-3">
-
-              <label className="form-label">
-                Select Date
-              </label>
+              <label className="form-label">Select Date</label>
 
               <select
                 className="form-select"
@@ -140,69 +121,43 @@ const BookingPage = () => {
                   setSelectedTime("");
                 }}
               >
-                <option value="">
-                  Select Date
-                </option>
+                <option value="">Select Date</option>
 
                 {availableDates.map((date) => (
                   <option key={date} value={date}>
                     {date}
                   </option>
                 ))}
-
               </select>
-
             </div>
 
             <div className="mb-3">
-
-              <label className="form-label">
-                Select Time
-              </label>
+              <label className="form-label">Select Time</label>
 
               <select
                 className="form-select"
                 value={selectedTime}
-                onChange={(e) =>
-                  setSelectedTime(e.target.value)
-                }
+                onChange={(e) => setSelectedTime(e.target.value)}
               >
-                <option value="">
-                  Select Time
-                </option>
+                <option value="">Select Time</option>
 
                 {availableTimes.map((show) => (
-                  <option
-                    key={show.id}
-                    value={show.time}
-                  >
+                  <option key={show.id} value={show.time}>
                     {show.time}
                   </option>
                 ))}
-
               </select>
-
             </div>
 
             <div className="row">
-
-          
-
               <div className="col-md-6 mb-3">
-
-                <label className="form-label">
-                  Tickets
-                </label>
+                <label className="form-label">Tickets</label>
 
                 <div className="d-flex">
-
                   <button
                     type="button"
                     className="btn btn-outline-secondary"
-                    onClick={() =>
-                      tickets > 1 &&
-                      setTickets(tickets - 1)
-                    }
+                    onClick={() => tickets > 1 && setTickets(tickets - 1)}
                   >
                     -
                   </button>
@@ -216,29 +171,18 @@ const BookingPage = () => {
                   <button
                     type="button"
                     className="btn btn-outline-secondary"
-                    onClick={() =>
-                      setTickets(tickets + 1)
-                    }
+                    onClick={() => setTickets(tickets + 1)}
                   >
                     +
                   </button>
-
                 </div>
-
               </div>
-
             </div>
 
-            <button className="btn btn-danger">
-              Book Ticket
-            </button>
-
+            <button className="btn btn-danger">Book Ticket</button>
           </form>
-
         </div>
-
       </div>
-
     </div>
   );
 };

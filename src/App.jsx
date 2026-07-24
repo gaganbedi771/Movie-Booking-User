@@ -23,7 +23,7 @@ const App = () => {
           path="/home"
           element={isAuthenticated ? <Home></Home> : <AuthPage></AuthPage>}
         ></Route>
-        <Route path="/booking/:movieId" element={<BookingPage />} />
+        <Route path="/booking/:movieId" element={isAuthenticated ? <BookingPage /> : <AuthPage />} />
       </Routes>
       <Footer></Footer>
     </>

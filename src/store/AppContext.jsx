@@ -56,9 +56,11 @@ const AppContextProvider = (props) => {
     }
   }
 
-  async function bookTicket(bookingData) {
+  async function bookTicket(bookingData,emailData) {
     try {
-      await appApi.bookTicket({ ...bookingData, userEmail }, token);
+      const response = await appApi.bookTicket({ ...bookingData, userEmail }, token);
+      
+      await appApi.sendConfirmationEmail(userEmail,emailData,response.name);
       return;
     } catch (error) {
       console.error("Error booking ticket:", error);
